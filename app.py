@@ -178,15 +178,15 @@ if st.button("開始回測"):
         return ''
         
     trade_records_no_index = trade_records.reset_index(drop=True)
-    trade_records_no_index.index = [''] * len(trade_records_no_index)  # 將索引置空
-    st.dataframe(
-    trade_records.reset_index(drop=True)
-    .style
+trade_records_no_index.index = [''] * len(trade_records_no_index)  # 將索引置空
+st.dataframe(
+    trade_records_no_index.style
     .map(color_profit, subset=['報酬率'])
     .set_properties(**{'text-align':'right'}))
 
     
     
+
 
 
 
