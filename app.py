@@ -37,7 +37,6 @@ run_button = st.button("執行回測")
 # -----------------------------
 # 執行回測
 def run_backtest():
-    st.info("回測進行中...")
     user_input = stock_input.strip()
     user_start_date = pd.to_datetime(date_input).date()
 
@@ -54,7 +53,7 @@ def run_backtest():
         stock_id = stock_row['stock_id'].iloc[0]
     stock_name = stock_row['stock_name'].iloc[0]
 
-    # 取得股價資料 (前推3個月)
+    # 取得股價資料
     start_date_api = (user_start_date - pd.DateOffset(months=3)).strftime("%Y-%m-%d")
     df = api.taiwan_stock_daily(stock_id=stock_id, start_date=start_date_api)
     if df.empty:
@@ -128,6 +127,7 @@ def run_backtest():
         st.warning("回測區間無資料")
         return
 
+    # -----------------------------
     # 交易紀錄
     raw_signals = df_backtest[df_backtest['策略'] != 0][['date','策略','close','狀態']].reset_index(drop=True)
     mask = (raw_signals['策略'] != raw_signals['策略'].shift(1))
@@ -162,12 +162,15 @@ def run_backtest():
     trade_records['報酬率'] = [f"{x:.1f}%" for x in strategy_returns]
     trade_records = trade_records[['策略區間','狀態','策略','報酬率','收盤價區間']]
 
-    # 累計報酬率
+    # -----------------------------
+    # 加入序號欄位
+    trade_records.insert(0, '序號', range(1, len(trade_records)+1))
+
+    # -----------------------------
+    # 累積報酬率
     strategy_cum_return = (1 + pd.Series([x/100 for x in strategy_returns])).prod() - 1
     buy_hold_return = (df_backtest['close'].iloc[-1] / df_backtest['close'].iloc[0]) - 1
 
-    # -----------------------------
-    # 顯示累計報酬率
     st.markdown(
         f"**策略累計報酬率:** <span style='color:{'red' if strategy_cum_return>0 else 'green'}'>{strategy_cum_return*100:.1f}%</span> | "
         f"**Buy & Hold 累計報酬率:** <span style='color:{'red' if buy_hold_return>0 else 'green'}'>{buy_hold_return*100:.1f}%</span>",
@@ -182,10 +185,8 @@ def run_backtest():
             return 'color:red' if num>0 else 'color:green' if num<0 else ''
         return ''
 
-    # 用 st.dataframe 需 reset_index(drop=True) 移除索引
     st.dataframe(
-        trade_records.reset_index(drop=True)
-        .style
+        trade_records.style
         .map(color_profit, subset=['報酬率'])
         .set_properties(**{'text-align':'right'})
     )
