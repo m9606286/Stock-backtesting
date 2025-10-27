@@ -177,8 +177,9 @@ if st.button("開始回測"):
             return 'color:red' if num>0 else 'color:green' if num<0 else ''
         return ''
         
-    trade_records_no_index = trade_records.reset_index(drop=True)
-trade_records_no_index.index = [''] * len(trade_records_no_index)  # 將索引置空
+trade_records_no_index = trade_records.reset_index(drop=True)
+trade_records_no_index.index = [''] * len(trade_records_no_index)  # 將索引設為空字串
+
 st.dataframe(
     trade_records_no_index.style
     .map(color_profit, subset=['報酬率'])
@@ -186,6 +187,7 @@ st.dataframe(
 
     
     
+
 
 
 
