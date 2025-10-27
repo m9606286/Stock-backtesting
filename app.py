@@ -5,7 +5,7 @@ from FinMind.data import DataLoader
 # -----------------------------
 # FinMind API (放預設 token)
 api = DataLoader()
-api.login_by_token(api_token='YOUR_FINMIND_TOKEN_HERE')  # 這裡放你 token
+api.login_by_token(api_token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRlIjoiMjAyNS0wNy0yMyAwOTo0NzoyNyIsInVzZXJfaWQiOiJtOTYwNjI4NiIsImlwIjoiNjAuMjUwLjg5LjkxIn0.XlB7BmkZTaerzA_Wm4PB_MzfbL7i8-nqoQjj2UUV3KM')  # 這裡放你 token
 
 # -----------------------------
 # Streamlit UI
@@ -181,3 +181,4 @@ if st.button("開始回測"):
                  .hide(axis='index')
                  .map(color_profit, subset=['報酬率'])
                  .set_properties(**{'text-align':'right'}))
+
