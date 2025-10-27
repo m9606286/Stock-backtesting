@@ -152,7 +152,7 @@ if st.button("開始回測"):
     trade_records['收盤價區間'] = close_range
     trade_records['報酬率'] = [f"{x:.1f}%" for x in strategy_returns]
     trade_records = trade_records[['策略區間','狀態','策略','報酬率','收盤價區間']]
-    trade_records.insert(0,'策略序號', range(1,len(trade_records)+1))
+    #trade_records.insert(0,'策略序號', range(1,len(trade_records)+1))
 
     # -----------------------------
     # 累計報酬率
@@ -181,4 +181,5 @@ if st.button("開始回測"):
                  .hide(axis='index')
                  .map(color_profit, subset=['報酬率'])
                  .set_properties(**{'text-align':'right'}))
+
 
