@@ -46,12 +46,12 @@ if st.button("執行回測"):
             stock_id = stock_input
             stock_row = df_stock_info[df_stock_info['stock_id'] == stock_id]
             if stock_row.empty:
-                st.error("找不到對應股票名稱")
+                st.error("找不到對應股票名稱，請重新輸入")
                 st.stop()
         else:
             stock_row = df_stock_info[df_stock_info['stock_name'].str.contains(stock_input)]
             if stock_row.empty:
-                st.error("找不到對應股票名稱")
+                st.error("找不到對應股票名稱，請重新輸入")
                 st.stop()
             stock_id = stock_row['stock_id'].iloc[0]
         stock_name = stock_row['stock_name'].iloc[0]
@@ -180,4 +180,5 @@ if st.button("執行回測"):
             .map(color_profit, subset=['報酬率'])
             .set_properties(**{'text-align':'right'})
         )
+
 
