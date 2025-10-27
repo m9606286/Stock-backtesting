@@ -189,9 +189,11 @@ def run_backtest():
         trade_records.style
         .map(color_profit, subset=['報酬率'])
         .set_properties(**{'text-align':'right'})
+        .hide(axis="index")   # 隱藏索引
     )
 
 # -----------------------------
 # 按鈕觸發
 if run_button:
     run_backtest()
+
