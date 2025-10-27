@@ -176,6 +176,9 @@ if st.button("開始回測"):
             num = float(val.strip('%'))
             return 'color:red' if num>0 else 'color:green' if num<0 else ''
         return ''
+        
+    trade_records_no_index = trade_records.reset_index(drop=True)
+    trade_records_no_index.index = [''] * len(trade_records_no_index)  # 將索引置空
     st.dataframe(
     trade_records.reset_index(drop=True)
     .style
@@ -184,6 +187,7 @@ if st.button("開始回測"):
 
     
     
+
 
 
 
