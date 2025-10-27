@@ -176,12 +176,13 @@ if st.button("開始回測"):
             num = float(val.strip('%'))
             return 'color:red' if num>0 else 'color:green' if num<0 else ''
         return ''
+    st.table(
+    trade_records.style
+    .map(color_profit, subset=['報酬率'])
+    .set_properties(**{'text-align':'right'}))
+    
+    
 
-    st.dataframe(
-                 trade_records.reset_index(drop=True)
-                 .style
-                 .map(color_profit, subset=['報酬率'])
-                 .set_properties(**{'text-align':'right'}))
 
 
 
